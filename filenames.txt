@@ -1,0 +1,2 @@
+spei[extra].nc
+The numbers in filenames represents accumulation timescale of a drought
