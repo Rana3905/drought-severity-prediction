@@ -78,11 +78,11 @@ page = st.sidebar.radio("Navigate", [
     "Overview", "Field Report (walkthrough)", "Model Comparison",
     "Class Scheme Comparison", "Class Imbalance Experiments",
     "Kazakhstan Portability", "SHAP Explainability", "Live Prediction",
+    "Kazakhstan Task Studies",
 ])
 
 all_results = load_results()
 
-# --------------------------------------------------------------------- #
 if page == "Overview":
     st.markdown('<div class="field-eyebrow">Project overview</div>', unsafe_allow_html=True)
     st.title("Drought Severity Prediction")
@@ -593,3 +593,17 @@ elif page == "Live Prediction":
             attn = attn_weights.numpy()[0]
             st.line_chart(pd.DataFrame({"Day": np.arange(1, len(attn)+1),
                                         "Attention weight": attn}).set_index("Day"))
+
+# --------------------------------------------------------------------- #
+elif page == "Kazakhstan Task Studies":
+    st.markdown('<div class="field-eyebrow">Companion dashboard</div>', unsafe_allow_html=True)
+    st.title("Kazakhstan Task Studies")
+    st.markdown("The internship deliverables for Kazakhstan (Tasks 1-5) -- feature "
+                "engineering, transfer learning, the US control experiment, multi-seed "
+                "robustness, the two-stage pipeline, and explainability -- live in a "
+                "separate dashboard that shares this project's data and styling.")
+    st.markdown("**Launch it in a second terminal:**")
+    st.code("streamlit run app_kazakhstan_5tasks.py", language="bash")
+    st.markdown("""It reads the same `results.json` plus the curated
+    `task_results_summary.json`, and renders the Task 4 explainability charts -- kept
+    separate from this US-focused report so each app stays focused.""")

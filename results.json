@@ -1285,5 +1285,844 @@
       "n_classes": 3,
       "excludes_none": true
     }
+  ],
+  "LSTM+Attention (Kazakhstan, engineered features)": [
+    {
+      "Accuracy": 0.8613558263042799,
+      "Macro F1": 0.6284739311538019,
+      "MAE": 0.1478288034989066,
+      "RMSE": 0.40828654999166025,
+      "timestamp": "2026-08-25T12:58:07",
+      "n_classes": 4,
+      "seed": 42,
+      "confusion_matrix": [
+        [
+          24269,
+          2143,
+          169,
+          1
+        ],
+        [
+          746,
+          2171,
+          477,
+          7
+        ],
+        [
+          71,
+          544,
+          999,
+          53
+        ],
+        [
+          7,
+          31,
+          189,
+          133
+        ]
+      ],
+      "n_features": 14,
+      "feature_names": [
+        "spei_raw",
+        "rolling_min_3m",
+        "rolling_min_6m",
+        "rolling_min_12m",
+        "rolling_max_3m",
+        "rolling_max_6m",
+        "rolling_max_12m",
+        "rolling_std_3m",
+        "rolling_std_6m",
+        "rolling_std_12m",
+        "lag_1m",
+        "lag_3m",
+        "lag_6m",
+        "rate_of_change"
+      ],
+      "real_data": true
+    }
+  ],
+  "LSTM+Attention (US, full 18-feat, arch-matched)": [
+    {
+      "Accuracy": 0.77,
+      "Macro F1": 0.447268903675498,
+      "MAE": 0.32704347826086955,
+      "RMSE": 0.75535767513894,
+      "timestamp": "2026-08-25T20:41:07",
+      "n_classes": 4,
+      "n_features": 18,
+      "variant": "A_full"
+    }
+  ],
+  "LSTM+Attention (US, 1-feat PRECTOT + soil)": [
+    {
+      "Accuracy": 0.7109347826086957,
+      "Macro F1": 0.3687429042395117,
+      "MAE": 0.48432608695652174,
+      "RMSE": 1.001303498272214,
+      "timestamp": "2026-08-25T20:47:41",
+      "n_classes": 4,
+      "n_features": 1,
+      "variant": "B_prectot_soil"
+    }
+  ],
+  "LSTM+Attention (US, 1-feat PRECTOT)": [
+    {
+      "Accuracy": 0.6865326086956521,
+      "Macro F1": 0.346405168252736,
+      "MAE": 0.5186739130434782,
+      "RMSE": 1.0448320023063413,
+      "timestamp": "2026-08-25T20:51:01",
+      "n_classes": 4,
+      "n_features": 1,
+      "variant": "C_prectot_only"
+    }
+  ],
+  "LSTM+Attention (KZ features, from scratch)": [
+    {
+      "Accuracy": 0.8533895657606998,
+      "Macro F1": 0.6137666020656574,
+      "MAE": 0.15660731021555763,
+      "RMSE": 0.4210562283014469,
+      "timestamp": "2026-08-25T21:39:13",
+      "n_classes": 4,
+      "n_features": 14,
+      "seed": 42,
+      "transfer_learning": false,
+      "note": "legacy run from the first transfer experiment; superseded by the canonical seed-42 entry below"
+    },
+    {
+      "Accuracy": 0.8533895657606998,
+      "Macro F1": 0.6137666020656574,
+      "MAE": 0.15660731021555763,
+      "RMSE": 0.4210562283014469,
+      "timestamp": "2026-08-25T22:09:08",
+      "n_classes": 4,
+      "n_features": 14,
+      "seed": 42,
+      "transfer_learning": false,
+      "note": "legacy run from the first transfer experiment; superseded by the canonical seed-42 entry below"
+    },
+    {
+      "Run": "seed 42 (canonical, multi-seed rerun)",
+      "Accuracy": 0.8614,
+      "Macro F1": 0.6285,
+      "note": "canonical seed-42 from-scratch; same model as Task 2 / multiseed transfer rerun"
+    }
+  ],
+  "LSTM+Attention (KZ features, transfer-learned)": [
+    {
+      "Accuracy": 0.8338956576069978,
+      "Macro F1": 0.5411707263438663,
+      "MAE": 0.18106841611996252,
+      "RMSE": 0.46036265128337384,
+      "timestamp": "2026-08-25T22:20:38",
+      "n_classes": 4,
+      "n_features": 14,
+      "seed": 42,
+      "transfer_learning": true,
+      "pretrained_source": "US PRECTOT 1-feat",
+      "transferred_layers": [
+        "proj.0.bias",
+        "proj.1.weight",
+        "proj.1.bias",
+        "lstm.weight_ih_l0",
+        "lstm.weight_hh_l0",
+        "lstm.bias_ih_l0",
+        "lstm.bias_hh_l0",
+        "attn_w.weight",
+        "attn_w.bias",
+        "attn_v.weight",
+        "fc1.weight",
+        "fc1.bias",
+        "fc2.weight",
+        "fc2.bias"
+      ],
+      "ft_lr": 0.0001
+    },
+    {
+      "Run": "seed 42 (canonical, multi-seed rerun)",
+      "Accuracy": 0.8339,
+      "Macro F1": 0.5412,
+      "note": "canonical seed-42 transfer-learned (multi-seed rerun)"
+    }
+  ],
+  "LSTM+Attention (Kazakhstan, engineered features, multi-seed)": [
+    {
+      "Accuracy": 0.8613558263042799,
+      "Macro F1": 0.6284739311538019,
+      "MAE": 0.1478288034989066,
+      "RMSE": 0.40828654999166025,
+      "per_class_recall": [
+        0.9129862312843278,
+        0.6383416642164069,
+        0.5992801439712058,
+        0.36944444444444446
+      ],
+      "timestamp": "2026-08-25T23:57:26",
+      "n_classes": 4,
+      "n_features": 14,
+      "seed": 42,
+      "feature_names": [
+        "spei_raw",
+        "rolling_min_3m",
+        "rolling_min_6m",
+        "rolling_min_12m",
+        "rolling_max_3m",
+        "rolling_max_6m",
+        "rolling_max_12m",
+        "rolling_std_3m",
+        "rolling_std_6m",
+        "rolling_std_12m",
+        "lag_1m",
+        "lag_3m",
+        "lag_6m",
+        "rate_of_change"
+      ]
+    },
+    {
+      "Accuracy": 0.8576382380506092,
+      "Macro F1": 0.6241059212688136,
+      "MAE": 0.15198375507653858,
+      "RMSE": 0.41492764243131386,
+      "per_class_recall": [
+        0.9128357535174177,
+        0.617171420170538,
+        0.5608878224355129,
+        0.42777777777777776
+      ],
+      "timestamp": "2026-08-26T00:28:55",
+      "n_classes": 4,
+      "n_features": 14,
+      "seed": 123,
+      "feature_names": [
+        "spei_raw",
+        "rolling_min_3m",
+        "rolling_min_6m",
+        "rolling_min_12m",
+        "rolling_max_3m",
+        "rolling_max_6m",
+        "rolling_max_12m",
+        "rolling_std_3m",
+        "rolling_std_6m",
+        "rolling_std_12m",
+        "lag_1m",
+        "lag_3m",
+        "lag_6m",
+        "rate_of_change"
+      ]
+    },
+    {
+      "Accuracy": 0.856232427366448,
+      "Macro F1": 0.6319433254344351,
+      "MAE": 0.1533895657606998,
+      "RMSE": 0.4163181922981063,
+      "per_class_recall": [
+        0.9078323677676623,
+        0.6292266980299912,
+        0.5842831433713257,
+        0.45
+      ],
+      "timestamp": "2026-08-26T01:02:17",
+      "n_classes": 4,
+      "n_features": 14,
+      "seed": 2026,
+      "feature_names": [
+        "spei_raw",
+        "rolling_min_3m",
+        "rolling_min_6m",
+        "rolling_min_12m",
+        "rolling_max_3m",
+        "rolling_max_6m",
+        "rolling_max_12m",
+        "rolling_std_3m",
+        "rolling_std_6m",
+        "rolling_std_12m",
+        "lag_1m",
+        "lag_3m",
+        "lag_6m",
+        "rate_of_change"
+      ]
+    }
+  ],
+  "LSTM+Attention (KZ, two-stage base, 4-class)": [
+    {
+      "Accuracy": 0.8613558263042799,
+      "Macro F1": 0.6284739311538019,
+      "MAE": 0.1478288034989066,
+      "RMSE": 0.40828654999166025,
+      "timestamp": "2026-08-26T01:44:09",
+      "n_features": 14,
+      "seed": 42,
+      "stage": "single-stage-baseline"
+    }
+  ],
+  "LSTM+Attention (KZ, binary stage 1)": [
+    {
+      "Accuracy": 0.9144954701655733,
+      "Macro F1": 0.8541992347701346,
+      "MAE": 0.08550452983442675,
+      "RMSE": 0.29241157609511076,
+      "timestamp": "2026-08-26T02:13:07",
+      "n_features": 14,
+      "seed": 42,
+      "stage": "binary-detector"
+    }
+  ],
+  "LSTM+Attention (KZ, severity stage 2)": [
+    {
+      "Accuracy": 0.701731761238025,
+      "Macro F1": 0.6082346194763784,
+      "MAE": 0.3113485630066323,
+      "RMSE": 0.5809554298704394,
+      "timestamp": "2026-08-26T02:17:23",
+      "n_features": 14,
+      "seed": 42,
+      "stage": "severity-classifier"
+    }
+  ],
+  "LSTM+Attention (KZ, two-stage combined)": [
+    {
+      "Accuracy": 0.8292721024679788,
+      "Macro F1": 0.22740372888199775,
+      "MAE": 0.24595438925335833,
+      "RMSE": 0.6473216392121577,
+      "timestamp": "2026-08-26T02:17:24",
+      "n_features": 14,
+      "seed": 42,
+      "stage": "two-stage-combined",
+      "binary_acc": 0.9144954701655733,
+      "binary_f1": 0.8541992347701346,
+      "severity_acc": 0.701731761238025,
+      "severity_f1": 0.6082346194763784
+    },
+    {
+      "Accuracy": 0.8680724773508278,
+      "Macro F1": 0.6070572028693606,
+      "MAE": 0.14601686972820993,
+      "RMSE": 0.41878716898738205,
+      "timestamp": "2026-08-30T00:33:14",
+      "seed": 42,
+      "stage": "two-stage-combined",
+      "gate_threshold": 0.5,
+      "corrected_assembly": true,
+      "note": "batch-index bug fixed; supersedes previous 0.227 combined entry"
+    }
+  ],
+  "KZ explainability (permutation importance)": [
+    {
+      "baseline_f1": 0.6284739311538019,
+      "timestamp": "2026-08-26T02:18:33",
+      "feature_names": [
+        "spei_raw",
+        "rolling_min_3m",
+        "rolling_min_6m",
+        "rolling_min_12m",
+        "rolling_max_3m",
+        "rolling_max_6m",
+        "rolling_max_12m",
+        "rolling_std_3m",
+        "rolling_std_6m",
+        "rolling_std_12m",
+        "lag_1m",
+        "lag_3m",
+        "lag_6m",
+        "rate_of_change"
+      ],
+      "feature_importance": [
+        0.26152913402539507,
+        0.11819318549725451,
+        0.059790551654472,
+        0.021635550221193938,
+        0.039017403201333366,
+        0.0443558114978709,
+        0.03949300825160821,
+        0.024073335218376957,
+        0.04830264036385649,
+        0.010294958545213784,
+        0.12854662410343207,
+        0.11944068129982299,
+        0.15085916448142866,
+        0.2335958799473906
+      ],
+      "timestep_importance": [
+        0.01336693439238279,
+        0.014712548349946656,
+        0.018769750174422173,
+        0.026166625473565002,
+        0.019428044968181585,
+        0.027500050990153662,
+        0.030840558524437383,
+        0.01978214749127738,
+        0.02585718463472153,
+        0.02299650720438758,
+        0.022199573816454283,
+        0.028824925941945745,
+        0.051314487838281964,
+        0.06188021144142031,
+        0.0333353857522957,
+        0.06927204916312668,
+        0.17097389529741772,
+        0.27585572400011454
+      ],
+      "n_repeats": 3
+    }
+  ],
+  "LSTM+Attention (KZ, 1-feat, from scratch 24/64)": [
+    {
+      "Accuracy": 0.833957627880495,
+      "Macro F1": 0.5423743550360017,
+      "MAE": 0.18510083605525757,
+      "RMSE": 0.475367908726524,
+      "timestamp": "2026-08-28T22:08:27",
+      "n_classes": 4,
+      "seed": 42,
+      "transfer_learning": false,
+      "trainable_params": 30100,
+      "confusion_matrix": [
+        [
+          25114,
+          2324,
+          240,
+          16
+        ],
+        [
+          1145,
+          1824,
+          570,
+          24
+        ],
+        [
+          217,
+          657,
+          781,
+          80
+        ],
+        [
+          30,
+          63,
+          175,
+          111
+        ]
+      ],
+      "n_features": 1,
+      "real_data": true
+    }
+  ],
+  "LSTM+Attention (KZ, 1-feat, US18 transfer frozen)": [
+    {
+      "Accuracy": 0.8082766473884511,
+      "Macro F1": 0.32001791403226987,
+      "MAE": 0.24092775164064606,
+      "RMSE": 0.5911557361913964,
+      "timestamp": "2026-08-28T22:31:33",
+      "n_classes": 4,
+      "seed": 42,
+      "transfer_learning": true,
+      "pretrained_source": "US 18-feat (arch-matched)",
+      "transferred_params": 30052,
+      "trainable_params": 48,
+      "frozen": "all except proj.0",
+      "spec_compliant": true,
+      "confusion_matrix": [
+        [
+          26006,
+          1465,
+          223,
+          0
+        ],
+        [
+          2577,
+          818,
+          168,
+          0
+        ],
+        [
+          923,
+          663,
+          149,
+          0
+        ],
+        [
+          169,
+          158,
+          52,
+          0
+        ]
+      ],
+      "n_features": 1,
+      "real_data": true
+    }
+  ],
+  "LSTM+Attention (KZ, 1-feat, US18 transfer full-finetune)": [
+    {
+      "Accuracy": 0.825657007581433,
+      "Macro F1": 0.5079632262701166,
+      "MAE": 0.1933415240777921,
+      "RMSE": 0.483090348483778,
+      "timestamp": "2026-08-28T23:08:02",
+      "n_classes": 4,
+      "seed": 42,
+      "transfer_learning": true,
+      "pretrained_source": "US 18-feat (arch-matched)",
+      "transferred_params": 30052,
+      "trainable_params": 30100,
+      "frozen": "none",
+      "spec_compliant": false,
+      "ft_lr": 5e-05,
+      "confusion_matrix": [
+        [
+          24751,
+          2632,
+          304,
+          7
+        ],
+        [
+          1035,
+          1879,
+          642,
+          7
+        ],
+        [
+          196,
+          639,
+          870,
+          30
+        ],
+        [
+          27,
+          59,
+          240,
+          53
+        ]
+      ],
+      "n_features": 1,
+      "real_data": true
+    }
+  ],
+  "LSTM+Attention (KZ features, from scratch, seed123)": [
+    {
+      "Accuracy": 0.8511715089034677,
+      "Macro F1": 0.6154868389786579,
+      "MAE": 0.16016869728209934,
+      "RMSE": 0.42848439335809263,
+      "timestamp": "2026-08-28T23:32:54",
+      "n_classes": 4,
+      "n_features": 14,
+      "seed": 123,
+      "transfer_learning": false
+    }
+  ],
+  "LSTM+Attention (KZ features, transfer-learned, seed123)": [
+    {
+      "Accuracy": 0.8346141830677913,
+      "Macro F1": 0.5231617454568488,
+      "MAE": 0.18119337706966573,
+      "RMSE": 0.4625290757259578,
+      "timestamp": "2026-08-28T23:40:12",
+      "n_classes": 4,
+      "n_features": 14,
+      "seed": 123,
+      "transfer_learning": true,
+      "pretrained_source": "US PRECTOT 1-feat",
+      "transferred_layers": [
+        "proj.0.bias",
+        "proj.1.weight",
+        "proj.1.bias",
+        "lstm.weight_ih_l0",
+        "lstm.weight_hh_l0",
+        "lstm.bias_ih_l0",
+        "lstm.bias_hh_l0",
+        "attn_w.weight",
+        "attn_w.bias",
+        "attn_v.weight",
+        "fc1.weight",
+        "fc1.bias",
+        "fc2.weight",
+        "fc2.bias"
+      ],
+      "ft_lr": 0.0001
+    }
+  ],
+  "LSTM+Attention (KZ features, from scratch, seed2026)": [
+    {
+      "Accuracy": 0.8526085598250547,
+      "Macro F1": 0.6185313414662693,
+      "MAE": 0.15732583567635114,
+      "RMSE": 0.4215382194747893,
+      "timestamp": "2026-08-28T23:58:24",
+      "n_classes": 4,
+      "n_features": 14,
+      "seed": 2026,
+      "transfer_learning": false
+    }
+  ],
+  "LSTM+Attention (KZ features, transfer-learned, seed2026)": [
+    {
+      "Accuracy": 0.8331771321462043,
+      "Macro F1": 0.5287902411136332,
+      "MAE": 0.18325523273976882,
+      "RMSE": 0.46602803626412054,
+      "timestamp": "2026-08-29T00:07:14",
+      "n_classes": 4,
+      "n_features": 14,
+      "seed": 2026,
+      "transfer_learning": true,
+      "pretrained_source": "US PRECTOT 1-feat",
+      "transferred_layers": [
+        "proj.0.bias",
+        "proj.1.weight",
+        "proj.1.bias",
+        "lstm.weight_ih_l0",
+        "lstm.weight_hh_l0",
+        "lstm.bias_ih_l0",
+        "lstm.bias_hh_l0",
+        "attn_w.weight",
+        "attn_w.bias",
+        "attn_v.weight",
+        "fc1.weight",
+        "fc1.bias",
+        "fc2.weight",
+        "fc2.bias"
+      ],
+      "ft_lr": 0.0001
+    }
+  ],
+  "LSTM+Attention (KZ, two-stage base, 4-class, seed123)": [
+    {
+      "Accuracy": 0.8576382380506092,
+      "Macro F1": 0.6241059212688136,
+      "MAE": 0.15198375507653858,
+      "RMSE": 0.41492764243131386,
+      "timestamp": "2026-08-29T00:48:41",
+      "n_features": 14,
+      "seed": 123,
+      "stage": "single-stage-baseline"
+    }
+  ],
+  "LSTM+Attention (KZ, binary stage 1, seed123)": [
+    {
+      "Accuracy": 0.9122149328334895,
+      "Macro F1": 0.8534878632548308,
+      "MAE": 0.08778506716651047,
+      "RMSE": 0.2962854487930693,
+      "timestamp": "2026-08-29T01:26:40",
+      "n_features": 14,
+      "seed": 123,
+      "stage": "binary-detector"
+    }
+  ],
+  "LSTM+Attention (KZ, severity stage 2, seed123)": [
+    {
+      "Accuracy": 0.7006263817243921,
+      "Macro F1": 0.609400113686213,
+      "MAE": 0.3166912306558585,
+      "RMSE": 0.592727977588674,
+      "timestamp": "2026-08-29T01:32:43",
+      "n_features": 14,
+      "seed": 123,
+      "stage": "severity-classifier"
+    }
+  ],
+  "LSTM+Attention (KZ, two-stage combined, seed123)": [
+    {
+      "Accuracy": 0.8291471415182755,
+      "Macro F1": 0.22723552609321185,
+      "MAE": 0.24607935020306154,
+      "RMSE": 0.6475628980775326,
+      "timestamp": "2026-08-29T01:32:43",
+      "n_features": 14,
+      "seed": 123,
+      "stage": "two-stage-combined",
+      "binary_acc": 0.9122149328334895,
+      "binary_f1": 0.8534878632548308,
+      "severity_acc": 0.7006263817243921,
+      "severity_f1": 0.609400113686213
+    },
+    {
+      "Accuracy": 0.8647610121836926,
+      "Macro F1": 0.6060965564153525,
+      "MAE": 0.15101530771633864,
+      "RMSE": 0.42939478488577126,
+      "timestamp": "2026-08-30T00:33:14",
+      "seed": 123,
+      "stage": "two-stage-combined",
+      "gate_threshold": 0.5,
+      "corrected_assembly": true,
+      "note": "batch-index bug fixed; supersedes previous 0.227 combined entry"
+    }
+  ],
+  "LSTM+Attention (KZ, two-stage base, 4-class, seed2026)": [
+    {
+      "Accuracy": 0.856232427366448,
+      "Macro F1": 0.6319433254344351,
+      "MAE": 0.1533895657606998,
+      "RMSE": 0.4163181922981063,
+      "timestamp": "2026-08-29T02:06:58",
+      "n_features": 14,
+      "seed": 2026,
+      "stage": "single-stage-baseline"
+    }
+  ],
+  "LSTM+Attention (KZ, binary stage 1, seed2026)": [
+    {
+      "Accuracy": 0.9134333020930959,
+      "Macro F1": 0.8550518299664163,
+      "MAE": 0.08656669790690409,
+      "RMSE": 0.29422219139096917,
+      "timestamp": "2026-08-29T02:45:23",
+      "n_features": 14,
+      "seed": 2026,
+      "stage": "binary-detector"
+    }
+  ],
+  "LSTM+Attention (KZ, severity stage 2, seed2026)": [
+    {
+      "Accuracy": 0.6914148857774502,
+      "Macro F1": 0.612156824204921,
+      "MAE": 0.3233235077376566,
+      "RMSE": 0.59396994433041,
+      "timestamp": "2026-08-29T02:52:04",
+      "n_features": 14,
+      "seed": 2026,
+      "stage": "severity-classifier"
+    }
+  ],
+  "LSTM+Attention (KZ, two-stage combined, seed2026)": [
+    {
+      "Accuracy": 0.8290221805685724,
+      "Macro F1": 0.22722391345839885,
+      "MAE": 0.24623555139019057,
+      "RMSE": 0.6476834938098253,
+      "timestamp": "2026-08-29T02:52:04",
+      "n_features": 14,
+      "seed": 2026,
+      "stage": "two-stage-combined",
+      "binary_acc": 0.9134333020930959,
+      "binary_f1": 0.8550518299664163,
+      "severity_acc": 0.6914148857774502,
+      "severity_f1": 0.612156824204921
+    },
+    {
+      "Accuracy": 0.8647922524211183,
+      "Macro F1": 0.6096118547290568,
+      "MAE": 0.14989065916900968,
+      "RMSE": 0.42566815369447797,
+      "timestamp": "2026-08-30T00:33:15",
+      "seed": 2026,
+      "stage": "two-stage-combined",
+      "gate_threshold": 0.5,
+      "corrected_assembly": true,
+      "note": "batch-index bug fixed; supersedes previous 0.227 combined entry"
+    }
+  ],
+  "LSTM+Attention (KZ, two-stage tuned gate, seed42)": [
+    {
+      "Accuracy": 0.8680724773508278,
+      "Macro F1": 0.6070572028693606,
+      "MAE": 0.14601686972820993,
+      "RMSE": 0.41878716898738205,
+      "timestamp": "2026-08-30T00:28:30",
+      "seed": 42,
+      "stage": "two-stage-tuned-gate",
+      "tau": 0.5,
+      "n_features": 14
+    }
+  ],
+  "LSTM+Attention (KZ, two-stage + rescue routing, seed42)": [
+    {
+      "Accuracy": 0.8756013745704467,
+      "Macro F1": 0.6344609230226812,
+      "MAE": 0.13464542330521712,
+      "RMSE": 0.39466925875353015,
+      "timestamp": "2026-08-30T00:28:30",
+      "seed": 42,
+      "stage": "two-stage-rescue-routing",
+      "tau_lo": 0.35,
+      "tau_hi": 0.95,
+      "routing_test_split": {
+        "none": 24976,
+        "drought": 1202,
+        "rescue": 5832
+      },
+      "n_features": 14
+    }
+  ],
+  "LSTM+Attention (KZ, two-stage tuned gate, seed123)": [
+    {
+      "Accuracy": 0.8647610121836926,
+      "Macro F1": 0.6060965564153525,
+      "MAE": 0.15101530771633864,
+      "RMSE": 0.42939478488577126,
+      "timestamp": "2026-08-30T00:28:31",
+      "seed": 123,
+      "stage": "two-stage-tuned-gate",
+      "tau": 0.5,
+      "n_features": 14
+    }
+  ],
+  "LSTM+Attention (KZ, two-stage + rescue routing, seed123)": [
+    {
+      "Accuracy": 0.8691034051858794,
+      "Macro F1": 0.6158794106611616,
+      "MAE": 0.14183067791315215,
+      "RMSE": 0.4062153789347457,
+      "timestamp": "2026-08-30T00:28:31",
+      "seed": 123,
+      "stage": "two-stage-rescue-routing",
+      "tau_lo": 0.35,
+      "tau_hi": 0.95,
+      "routing_test_split": {
+        "none": 24599,
+        "drought": 1272,
+        "rescue": 6139
+      },
+      "n_features": 14
+    }
+  ],
+  "LSTM+Attention (KZ, two-stage tuned gate, seed2026)": [
+    {
+      "Accuracy": 0.8647922524211183,
+      "Macro F1": 0.6096118547290568,
+      "MAE": 0.14989065916900968,
+      "RMSE": 0.42566815369447797,
+      "timestamp": "2026-08-30T00:28:32",
+      "seed": 2026,
+      "stage": "two-stage-tuned-gate",
+      "tau": 0.5,
+      "n_features": 14
+    }
+  ],
+  "LSTM+Attention (KZ, two-stage + rescue routing, seed2026)": [
+    {
+      "Accuracy": 0.8731958762886598,
+      "Macro F1": 0.6357642833138405,
+      "MAE": 0.13689472039987505,
+      "RMSE": 0.39743004469323556,
+      "timestamp": "2026-08-30T00:28:32",
+      "seed": 2026,
+      "stage": "two-stage-rescue-routing",
+      "tau_lo": 0.35,
+      "tau_hi": 0.95,
+      "routing_test_split": {
+        "none": 24752,
+        "drought": 1288,
+        "rescue": 5970
+      },
+      "n_features": 14
+    }
+  ],
+  "LSTM+Attention (KZ, two-stage combined, seed42)": [
+    {
+      "Accuracy": 0.8680724773508278,
+      "Macro F1": 0.6070572028693606,
+      "MAE": 0.14601686972820993,
+      "RMSE": 0.41878716898738205,
+      "timestamp": "2026-08-30T00:33:14",
+      "seed": 42,
+      "stage": "two-stage-combined",
+      "gate_threshold": 0.5,
+      "corrected_assembly": true,
+      "note": "batch-index bug fixed; supersedes previous 0.227 combined entry"
+    }
   ]
 }

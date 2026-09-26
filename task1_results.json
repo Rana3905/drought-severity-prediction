@@ -1,0 +1,569 @@
+{
+  "individual_runs": {
+    "C": [
+      {
+        "scenario": "C",
+        "seed": 42,
+        "epochs": 62,
+        "best_val_macro_f1": 0.5121382229745653,
+        "n_features": 1,
+        "feature_names": [
+          "spei_raw"
+        ],
+        "timestamp": "2026-09-15T01:03:29",
+        "Accuracy": 0.8555349892524481,
+        "Macro F1": 0.5635413036608369,
+        "MAE": 0.16022808693575352,
+        "RMSE": 0.4396665366868473,
+        "confusion_matrix": [
+          [
+            26238,
+            1886,
+            208,
+            10
+          ],
+          [
+            1032,
+            1545,
+            480,
+            30
+          ],
+          [
+            149,
+            639,
+            693,
+            94
+          ],
+          [
+            16,
+            89,
+            206,
+            181
+          ]
+        ],
+        "per_class": {
+          "None": {
+            "precision": 0.956369600874795,
+            "recall": 0.925763883988427,
+            "f1": 0.9408178998511931,
+            "support": 28342
+          },
+          "Mild": {
+            "precision": 0.37148352969463816,
+            "recall": 0.500485908649174,
+            "f1": 0.42644217499309967,
+            "support": 3087
+          },
+          "Moderate": {
+            "precision": 0.43667296786389415,
+            "recall": 0.44,
+            "f1": 0.43833017077798864,
+            "support": 1575
+          },
+          "Severe+": {
+            "precision": 0.5746031746031746,
+            "recall": 0.3678861788617886,
+            "f1": 0.4485749690210657,
+            "support": 492
+          }
+        },
+        "Moderate Recall": 0.44,
+        "Moderate Precision": 0.43667296786389415,
+        "Severe+ Recall": 0.3678861788617886,
+        "Severe+ Precision": 0.5746031746031746,
+        "Severe+ False Negative Rate": 0.6321138211382114
+      },
+      {
+        "scenario": "C",
+        "seed": 123,
+        "epochs": 44,
+        "best_val_macro_f1": 0.5045567240598635,
+        "n_features": 1,
+        "feature_names": [
+          "spei_raw"
+        ],
+        "timestamp": "2026-09-15T01:12:09",
+        "Accuracy": 0.8475041796035347,
+        "Macro F1": 0.5650505573471512,
+        "MAE": 0.16763195605445427,
+        "RMSE": 0.44607060266854887,
+        "confusion_matrix": [
+          [
+            25774,
+            2320,
+            240,
+            8
+          ],
+          [
+            852,
+            1694,
+            512,
+            29
+          ],
+          [
+            116,
+            630,
+            750,
+            79
+          ],
+          [
+            10,
+            86,
+            226,
+            170
+          ]
+        ],
+        "per_class": {
+          "None": {
+            "precision": 0.963441985645933,
+            "recall": 0.9093924211417684,
+            "f1": 0.9356372744763495,
+            "support": 28342
+          },
+          "Mild": {
+            "precision": 0.3581395348837209,
+            "recall": 0.5487528344671202,
+            "f1": 0.4334143533324805,
+            "support": 3087
+          },
+          "Moderate": {
+            "precision": 0.4340277777777778,
+            "recall": 0.47619047619047616,
+            "f1": 0.45413260672116257,
+            "support": 1575
+          },
+          "Severe+": {
+            "precision": 0.5944055944055944,
+            "recall": 0.34552845528455284,
+            "f1": 0.4370179948586118,
+            "support": 492
+          }
+        },
+        "Moderate Recall": 0.47619047619047616,
+        "Moderate Precision": 0.4340277777777778,
+        "Severe+ Recall": 0.34552845528455284,
+        "Severe+ Precision": 0.5944055944055944,
+        "Severe+ False Negative Rate": 0.6544715447154471
+      },
+      {
+        "scenario": "C",
+        "seed": 2026,
+        "epochs": 80,
+        "best_val_macro_f1": 0.5123872708417382,
+        "n_features": 1,
+        "feature_names": [
+          "spei_raw"
+        ],
+        "timestamp": "2026-09-15T01:28:00",
+        "Accuracy": 0.849295438261285,
+        "Macro F1": 0.565811313856572,
+        "MAE": 0.16652734654884166,
+        "RMSE": 0.44683960401604955,
+        "confusion_matrix": [
+          [
+            25910,
+            2203,
+            217,
+            12
+          ],
+          [
+            902,
+            1674,
+            469,
+            42
+          ],
+          [
+            124,
+            660,
+            656,
+            135
+          ],
+          [
+            13,
+            97,
+            174,
+            208
+          ]
+        ],
+        "per_class": {
+          "None": {
+            "precision": 0.9614456937177632,
+            "recall": 0.9141909533554442,
+            "f1": 0.9372230561935939,
+            "support": 28342
+          },
+          "Mild": {
+            "precision": 0.36124298662063015,
+            "recall": 0.5422740524781341,
+            "f1": 0.43362258774770107,
+            "support": 3087
+          },
+          "Moderate": {
+            "precision": 0.43271767810026385,
+            "recall": 0.4165079365079365,
+            "f1": 0.4244581041734067,
+            "support": 1575
+          },
+          "Severe+": {
+            "precision": 0.5239294710327456,
+            "recall": 0.42276422764227645,
+            "f1": 0.46794150731158607,
+            "support": 492
+          }
+        },
+        "Moderate Recall": 0.4165079365079365,
+        "Moderate Precision": 0.43271767810026385,
+        "Severe+ Recall": 0.42276422764227645,
+        "Severe+ Precision": 0.5239294710327456,
+        "Severe+ False Negative Rate": 0.5772357723577236
+      }
+    ],
+    "D": [
+      {
+        "scenario": "D",
+        "seed": 42,
+        "epochs": 38,
+        "best_val_macro_f1": 0.5179604559134761,
+        "n_features": 22,
+        "feature_names": [
+          "spei_raw",
+          "lag_1m",
+          "lag_2m",
+          "lag_3m",
+          "lag_6m",
+          "rolling_mean_3m",
+          "rolling_mean_6m",
+          "rolling_mean_12m",
+          "rolling_min_3m",
+          "rolling_min_6m",
+          "rolling_min_12m",
+          "rolling_max_3m",
+          "rolling_max_6m",
+          "rolling_max_12m",
+          "rolling_std_3m",
+          "rolling_std_6m",
+          "rolling_std_12m",
+          "change_1m",
+          "change_3m",
+          "change_6m",
+          "neg_spei_count_6m",
+          "neg_spei_count_12m"
+        ],
+        "timestamp": "2026-09-15T01:37:52",
+        "Accuracy": 0.8475994180407371,
+        "Macro F1": 0.5620892369673245,
+        "MAE": 0.16516125121241512,
+        "RMSE": 0.4381274079605242,
+        "confusion_matrix": [
+          [
+            25308,
+            2366,
+            168,
+            19
+          ],
+          [
+            755,
+            1846,
+            411,
+            55
+          ],
+          [
+            80,
+            703,
+            584,
+            204
+          ],
+          [
+            2,
+            76,
+            189,
+            226
+          ]
+        ],
+        "per_class": {
+          "None": {
+            "precision": 0.9679862306368331,
+            "recall": 0.9083665338645418,
+            "f1": 0.937229196755916,
+            "support": 27861
+          },
+          "Mild": {
+            "precision": 0.3698657583650571,
+            "recall": 0.6018910987936094,
+            "f1": 0.4581782079920576,
+            "support": 3067
+          },
+          "Moderate": {
+            "precision": 0.4319526627218935,
+            "recall": 0.3717377466581795,
+            "f1": 0.3995894628806021,
+            "support": 1571
+          },
+          "Severe+": {
+            "precision": 0.44841269841269843,
+            "recall": 0.45841784989858014,
+            "f1": 0.45336008024072216,
+            "support": 493
+          }
+        },
+        "Moderate Recall": 0.3717377466581795,
+        "Moderate Precision": 0.4319526627218935,
+        "Severe+ Recall": 0.45841784989858014,
+        "Severe+ Precision": 0.44841269841269843,
+        "Severe+ False Negative Rate": 0.5415821501014199
+      },
+      {
+        "scenario": "D",
+        "seed": 123,
+        "epochs": 59,
+        "best_val_macro_f1": 0.5140623009628007,
+        "n_features": 22,
+        "feature_names": [
+          "spei_raw",
+          "lag_1m",
+          "lag_2m",
+          "lag_3m",
+          "lag_6m",
+          "rolling_mean_3m",
+          "rolling_mean_6m",
+          "rolling_mean_12m",
+          "rolling_min_3m",
+          "rolling_min_6m",
+          "rolling_min_12m",
+          "rolling_max_3m",
+          "rolling_max_6m",
+          "rolling_max_12m",
+          "rolling_std_3m",
+          "rolling_std_6m",
+          "rolling_std_12m",
+          "change_1m",
+          "change_3m",
+          "change_6m",
+          "neg_spei_count_6m",
+          "neg_spei_count_12m"
+        ],
+        "timestamp": "2026-09-15T01:50:15",
+        "Accuracy": 0.846659796314258,
+        "Macro F1": 0.5466149907709092,
+        "MAE": 0.16697987390882638,
+        "RMSE": 0.4414356373475816,
+        "confusion_matrix": [
+          [
+            25377,
+            2273,
+            208,
+            3
+          ],
+          [
+            827,
+            1777,
+            425,
+            38
+          ],
+          [
+            94,
+            753,
+            621,
+            103
+          ],
+          [
+            7,
+            90,
+            238,
+            158
+          ]
+        ],
+        "per_class": {
+          "None": {
+            "precision": 0.9647215358296902,
+            "recall": 0.910843114030365,
+            "f1": 0.937008455488683,
+            "support": 27861
+          },
+          "Mild": {
+            "precision": 0.3631718781933374,
+            "recall": 0.5793935441799805,
+            "f1": 0.4464824120603015,
+            "support": 3067
+          },
+          "Moderate": {
+            "precision": 0.41621983914209115,
+            "recall": 0.3952896244430299,
+            "f1": 0.4054848188050931,
+            "support": 1571
+          },
+          "Severe+": {
+            "precision": 0.5231788079470199,
+            "recall": 0.3204868154158215,
+            "f1": 0.39748427672955977,
+            "support": 493
+          }
+        },
+        "Moderate Recall": 0.3952896244430299,
+        "Moderate Precision": 0.41621983914209115,
+        "Severe+ Recall": 0.3204868154158215,
+        "Severe+ Precision": 0.5231788079470199,
+        "Severe+ False Negative Rate": 0.6795131845841785
+      },
+      {
+        "scenario": "D",
+        "seed": 2026,
+        "epochs": 48,
+        "best_val_macro_f1": 0.5233662959712762,
+        "n_features": 22,
+        "feature_names": [
+          "spei_raw",
+          "lag_1m",
+          "lag_2m",
+          "lag_3m",
+          "lag_6m",
+          "rolling_mean_3m",
+          "rolling_mean_6m",
+          "rolling_mean_12m",
+          "rolling_min_3m",
+          "rolling_min_6m",
+          "rolling_min_12m",
+          "rolling_max_3m",
+          "rolling_max_6m",
+          "rolling_max_12m",
+          "rolling_std_3m",
+          "rolling_std_6m",
+          "rolling_std_12m",
+          "change_1m",
+          "change_3m",
+          "change_6m",
+          "neg_spei_count_6m",
+          "neg_spei_count_12m"
+        ],
+        "timestamp": "2026-09-15T02:00:27",
+        "Accuracy": 0.8367179922405431,
+        "Macro F1": 0.5633738452137225,
+        "MAE": 0.1768913676042677,
+        "RMSE": 0.45245584851934434,
+        "confusion_matrix": [
+          [
+            24852,
+            2731,
+            271,
+            7
+          ],
+          [
+            635,
+            1797,
+            601,
+            34
+          ],
+          [
+            73,
+            607,
+            769,
+            122
+          ],
+          [
+            3,
+            51,
+            252,
+            187
+          ]
+        ],
+        "per_class": {
+          "None": {
+            "precision": 0.9721863631029222,
+            "recall": 0.8919995692904059,
+            "f1": 0.9303683737646001,
+            "support": 27861
+          },
+          "Mild": {
+            "precision": 0.3465098341689163,
+            "recall": 0.5859145745027714,
+            "f1": 0.43547800799709196,
+            "support": 3067
+          },
+          "Moderate": {
+            "precision": 0.40623349181193874,
+            "recall": 0.4894971355824316,
+            "f1": 0.44399538106235564,
+            "support": 1571
+          },
+          "Severe+": {
+            "precision": 0.5342857142857143,
+            "recall": 0.3793103448275862,
+            "f1": 0.44365361803084225,
+            "support": 493
+          }
+        },
+        "Moderate Recall": 0.4894971355824316,
+        "Moderate Precision": 0.40623349181193874,
+        "Severe+ Recall": 0.3793103448275862,
+        "Severe+ Precision": 0.5342857142857143,
+        "Severe+ False Negative Rate": 0.6206896551724138
+      }
+    ]
+  },
+  "summary_by_scenario": {
+    "C": {
+      "Accuracy": {
+        "mean": 0.8507782023724225,
+        "std": 0.00421573456958906,
+        "min": 0.8475041796035347,
+        "max": 0.8555349892524481
+      },
+      "Macro F1": {
+        "mean": 0.5648010582881867,
+        "std": 0.0011553890719162474,
+        "min": 0.5635413036608369,
+        "max": 0.565811313856572
+      },
+      "MAE": {
+        "mean": 0.16479579651301648,
+        "std": 0.00399412301095463,
+        "min": 0.16022808693575352,
+        "max": 0.16763195605445427
+      },
+      "RMSE": {
+        "mean": 0.4441922477904819,
+        "std": 0.00393819584496323,
+        "min": 0.4396665366868473,
+        "max": 0.44683960401604955
+      },
+      "Severe+ False Negative Rate": {
+        "mean": 0.6212737127371274,
+        "std": 0.03974257283485759,
+        "min": 0.5772357723577236,
+        "max": 0.6544715447154471
+      }
+    },
+    "D": {
+      "Accuracy": {
+        "mean": 0.8436590688651795,
+        "std": 0.006029480141689031,
+        "min": 0.8367179922405431,
+        "max": 0.8475994180407371
+      },
+      "Macro F1": {
+        "mean": 0.557359357650652,
+        "std": 0.009327037006550595,
+        "min": 0.5466149907709092,
+        "max": 0.5633738452137225
+      },
+      "MAE": {
+        "mean": 0.16967749757516973,
+        "std": 0.006313223243757032,
+        "min": 0.16516125121241512,
+        "max": 0.1768913676042677
+      },
+      "RMSE": {
+        "mean": 0.4440062979424834,
+        "std": 0.007502151300296876,
+        "min": 0.4381274079605242,
+        "max": 0.45245584851934434
+      },
+      "Severe+ False Negative Rate": {
+        "mean": 0.6139283299526707,
+        "std": 0.0692136489965407,
+        "min": 0.5415821501014199,
+        "max": 0.6795131845841785
+      }
+    }
+  }
+}

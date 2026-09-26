@@ -1,0 +1,510 @@
+{
+  "project": "Kazakhstan Drought Prediction — AlfaFlow Internship 2026",
+  "author": "Md Jahidul Islam Rana",
+  "institution": "Al-Farabi Kazakh National University",
+  "dataset": "SPEI-HR Central Asia (Pyarali et al. 2022, CEDA, OGL v3)",
+  "data_source_nc": "spei_6.nc (1.14 GB, 456 months x 188 lat x 816 lon)",
+  "tasks": {
+    "task_1a_feature_engineering": {
+      "objective": "Build additional features from the same single SPEI time series to compensate for limited data availability.",
+      "method": "Rolling min/max/std over 3, 6, 12 months (9 features), lag features at 1, 3, 6 months (3 features), rate of change (1 feature) + raw SPEI = 14 features total. Extended lookback window from 6 to 18 months. 500 grid cells sampled from Kazakhstan bbox.",
+      "results": {
+        "kz_1raw_spei": {
+          "macro_f1": 0.5419,
+          "accuracy": 0.8275,
+          "n_features": 1,
+          "seed": 42
+        },
+        "kz_14engineered": {
+          "macro_f1": 0.6285,
+          "accuracy": 0.8614,
+          "n_features": 14,
+          "seed": 42
+        }
+      },
+      "improvement": {
+        "macro_f1": 0.0865,
+        "accuracy": 0.0334
+      },
+      "conclusion": "Feature engineering from a single variable delivered a substantial +0.087 F1 improvement, meaningfully closing part of the feature gap without any new data source."
+    },
+    "task_1b_transfer_learning": {
+      "objective": "Use US pretrained model weights as a starting point for Kazakhstan fine-tuning to check if cross-region knowledge transfer helps.",
+      "method": "Trained US 1-feature PRECTOT model (PROJ=24, HIDDEN=64), transferred 14 compatible layers (proj.0.bias, proj.1, LSTM, attn_w, attn_v, fc1, fc2) to KZ model with identical architecture. Fine-tuned on KZ 14-feature data with reduced LR (1e-4, factor 0.2x).",
+      "results": {
+        "kz_from_scratch": {
+          "macro_f1": 0.6285,
+          "accuracy": 0.8614,
+          "epochs": 150,
+          "seed": 42
+        },
+        "kz_transfer_learned": {
+          "macro_f1": 0.5412,
+          "accuracy": 0.8339,
+          "epochs": 60,
+          "seed": 42
+        }
+      },
+      "transferred_layers": [
+        "proj.0.bias",
+        "proj.1.weight",
+        "proj.1.bias",
+        "lstm.weight_ih_l0",
+        "lstm.weight_hh_l0",
+        "lstm.bias_ih_l0",
+        "lstm.bias_hh_l0",
+        "attn_w.weight",
+        "attn_w.bias",
+        "attn_v.weight",
+        "fc1.weight",
+        "fc1.bias",
+        "fc2.weight",
+        "fc2.bias"
+      ],
+      "layers_not_transferred": [
+        "proj.0.weight (US: 24x1, KZ: 24x14 — shape mismatch)"
+      ],
+      "improvement": {
+        "macro_f1": -0.0873,
+        "accuracy": -0.0275
+      },
+      "spec_compliant_rerun": {
+        "objective": "Literal reading of the task: pretrain on US 18-feature model, fine-tune only the layer that sees the single SPEI feature.",
+        "method": "US 18-feature arch-matched model (PROJ=24/HIDDEN=64) as base on sequences_kazakhstan.npz (1 SPEI feature). Variant B: frozen everything except proj.0 (48 trainable params). Variant C: all unfrozen at LR=5e-5.",
+        "results": {
+          "kz_1feat_from_scratch_2464": {
+            "macro_f1": 0.5424,
+            "accuracy": 0.834,
+            "trainable_params": 30100
+          },
+          "kz_1feat_us18_frozen_spec": {
+            "macro_f1": 0.32,
+            "accuracy": 0.8083,
+            "trainable_params": 48,
+            "transferred_params": 30052,
+            "spec_compliant": true
+          },
+          "kz_1feat_us18_full_finetune": {
+            "macro_f1": 0.508,
+            "accuracy": 0.8257,
+            "trainable_params": 30100,
+            "transferred_params": 30052,
+            "spec_compliant": false
+          }
+        },
+        "conclusion": "The literal spec-compliant transfer (frozen tower + 48-param input layer) performs worst (F1 0.320); full fine-tune (0.508) stays below from-scratch (0.542). US pretrained weights do not compensate for missing features under any transfer recipe."
+      },
+      "multiseed_check": {
+        "objective": "Confirm the transfer-learning failure is not seed luck: rerun scratch vs transfer on seeds 42, 123, 2026 (identical hyperparameters).",
+        "results": {
+          "seed_42": {
+            "scratch_macro_f1": 0.6285,
+            "transfer_macro_f1": 0.5412,
+            "delta": -0.0873
+          },
+          "seed_123": {
+            "scratch_macro_f1": 0.6155,
+            "transfer_macro_f1": 0.5232,
+            "delta": -0.0923
+          },
+          "seed_2026": {
+            "scratch_macro_f1": 0.6185,
+            "transfer_macro_f1": 0.5288,
+            "delta": -0.0897
+          }
+        },
+        "statistics": {
+          "scratch_mean": 0.6208,
+          "scratch_std": 0.0068,
+          "transfer_mean": 0.5311,
+          "transfer_std": 0.0092,
+          "mean_delta": -0.0898,
+          "all_seeds_negative": true
+        },
+        "conclusion": "Across all 3 seeds, transfer learning consistently hurt by ~0.09 Macro F1 (delta -0.087 to -0.092), with no overlap between scratch (0.616-0.629) and transferred (0.523-0.541) ranges. The one-sided transfer penalty is statistically robust."
+      },
+      "conclusion": "Transfer learning HURT performance. US PRECTOT weights are not compatible with SPEI-based prediction — different physical signals produce incompatible feature representations in the projection and LSTM layers."
+    },
+    "task_1c_us_control": {
+      "objective": "Answer: 'if the US had as few features as Kazakhstan, would the quality gap be the same?'",
+      "method": "Train US model restricted to 1 feature (PRECTOT — closest analog to SPEI). Three variants, all with architecture matched to KZ (PROJ=24, HIDDEN=64, SOIL_PROJ=8). Subsampled to 200K training rows for computational feasibility.",
+      "results": {
+        "us_full_18feat_soil": {
+          "macro_f1": 0.4473,
+          "accuracy": 0.77,
+          "n_features": 18,
+          "n_params": 30508
+        },
+        "us_1feat_prectot_soil": {
+          "macro_f1": 0.3687,
+          "accuracy": 0.7109,
+          "n_features": 1,
+          "n_params": 30100
+        },
+        "us_1feat_prectot_only": {
+          "macro_f1": 0.3464,
+          "accuracy": 0.6865,
+          "n_features": 1,
+          "n_params": 29572
+        },
+        "kz_1raw_spei": {
+          "macro_f1": 0.5419,
+          "accuracy": 0.8275,
+          "n_features": 1
+        },
+        "kz_14engineered": {
+          "macro_f1": 0.6285,
+          "accuracy": 0.8614,
+          "n_features": 14
+        }
+      },
+      "gap_analysis": {
+        "us_1feat_vs_kz_1feat": -0.1955,
+        "us_full_vs_kz_14feat": -0.1812,
+        "soil_compensation_us": 0.0223
+      },
+      "conclusion": "The US with 1 feature (F1=0.346) is dramatically worse than KZ with 1 feature (F1=0.542). SPEI is a far stronger single drought signal than PRECTOT precipitation. Even with soil data, US PRECTOT only reaches F1=0.369 — still far below KZ. The quality gap is NOT just about feature count; SPEI encodes drought-relevant information that precipitation alone cannot."
+    },
+    "task_2_multiseed": {
+      "objective": "Validate result stability across random seeds, following the original report's robustness section.",
+      "method": "Retrain KZ 14-feature model on seeds 42, 123, 2026 with identical hyperparameters (PROJ=24, HIDDEN=64, BATCH=64, LR=5e-4, 150 max epochs, patience 30).",
+      "results": {
+        "seed_42": {
+          "macro_f1": 0.6285,
+          "accuracy": 0.8614,
+          "mae": 0.1478,
+          "rmse": 0.4083,
+          "epochs_run": 150
+        },
+        "seed_123": {
+          "macro_f1": 0.6241,
+          "accuracy": 0.8576,
+          "mae": 0.152,
+          "rmse": 0.4149,
+          "epochs_run": 144
+        },
+        "seed_2026": {
+          "macro_f1": 0.6319,
+          "accuracy": 0.8562,
+          "mae": 0.1534,
+          "rmse": 0.4163,
+          "epochs_run": 139
+        }
+      },
+      "statistics": {
+        "std_convention": "sample std, ddof=1",
+        "macro_f1_mean": 0.6282,
+        "macro_f1_std": 0.0039,
+        "macro_f1_range": [
+          0.6241,
+          0.6319
+        ],
+        "macro_f1_spread": 0.0078,
+        "accuracy_mean": 0.8584,
+        "accuracy_std": 0.0027,
+        "accuracy_spread": 0.0051
+      },
+      "conclusion": "Results are STABLE across seeds. Macro F1 spread of 0.0078 is well below 0.03 threshold. The model's performance is not attributable to lucky initialization."
+    },
+    "task_3_two_stage": {
+      "objective": "Test whether a two-stage pipeline (binary drought detector + severity classifier) outperforms single-stage 4-class classification.",
+      "method": "Stage 1: binary classifier (None vs drought). Stage 2: 3-class severity classifier (Mild/Moderate/Severe+) trained only on drought samples. Combined prediction: Stage 1 decides if drought, Stage 2 classifies severity if yes. Three variants evaluated: hard gate @0.5, tuned gate (best threshold on validation), and rescue routing (ambiguous samples routed to the 4-class model).",
+      "evaluation_bug_fix": {
+        "issue": "The original two-stage combined evaluation mixed batch-local indices (0..255) into the global test array, pinning ~99.7% of test predictions to class 0 and fabricating Macro F1 = 0.227 / delta -0.401.",
+        "evidence": "Reproducing the buggy assembly on seed 42 yields exactly 0.2274 and a class-0 count of 31,960 (matching the recorded confusion matrix); the corrected assembly yields 0.6071. All three seeds re-computed.",
+        "fix": "train_two_stage.py combined-eval now uses global index (i+idx). Results below are from the corrected assembly."
+      },
+      "results": {
+        "single_stage_4class": {
+          "macro_f1": 0.6285,
+          "accuracy": 0.8614
+        },
+        "binary_detector": {
+          "macro_f1": 0.8542,
+          "accuracy": 0.9145
+        },
+        "severity_classifier": {
+          "macro_f1": 0.6082,
+          "accuracy": 0.7017
+        },
+        "two_stage_combined_corrected": {
+          "macro_f1": 0.6071,
+          "accuracy": 0.8681,
+          "gate_threshold": 0.5
+        },
+        "two_stage_tuned_gate": {
+          "macro_f1": 0.6071,
+          "accuracy": 0.8681,
+          "gate_threshold": 0.5
+        },
+        "two_stage_rescue_routing": {
+          "macro_f1": 0.6345,
+          "accuracy": 0.8756,
+          "tau_lo": 0.35,
+          "tau_hi": 0.95
+        }
+      },
+      "error_analysis": {
+        "binary_stage_accuracy": 0.9145,
+        "binary_stage_drought_recall": 0.8004,
+        "severity_stage_accuracy": 0.7017,
+        "gate_leak": "Stage 1 misclassifies ~20% of drought samples as no-drought; under a hard gate those become permanent class 0, costing ~0.02 Macro F1 vs single-stage (0.608 vs 0.629), NOT the -0.40 previously reported.",
+        "rescue_gain": "Routing the ambiguous band (~18% of test) to the 4-class model recovers the loss: rescue-routing mean F1 0.629 vs single-stage 0.628 (tie; better on 2/3 seeds, slightly worse on 1/3, higher variance)."
+      },
+      "confusion_matrix_two_stage_corrected_seed42": [
+        [
+          24970,
+          1443,
+          168,
+          1
+        ],
+        [
+          955,
+          1945,
+          484,
+          17
+        ],
+        [
+          93,
+          529,
+          956,
+          89
+        ],
+        [
+          9,
+          30,
+          164,
+          157
+        ]
+      ],
+      "multiseed_check": {
+        "objective": "Assess two-stage stability across seeds 42, 123, 2026 with the corrected assembly.",
+        "results": {
+          "seed_42": {
+            "single_stage_f1": 0.6285,
+            "two_stage_combined_f1": 0.6071,
+            "rescue_routing_f1": 0.6345
+          },
+          "seed_123": {
+            "single_stage_f1": 0.6241,
+            "two_stage_combined_f1": 0.6061,
+            "rescue_routing_f1": 0.6159
+          },
+          "seed_2026": {
+            "single_stage_f1": 0.6319,
+            "two_stage_combined_f1": 0.6096,
+            "rescue_routing_f1": 0.6358
+          }
+        },
+        "statistics": {
+          "single_stage_mean": 0.6282,
+          "two_stage_mean": 0.6076,
+          "two_stage_spread": 0.0035,
+          "rescue_mean": 0.6287,
+          "rescue_spread": 0.0199,
+          "combined_vs_single_gap": -0.0206,
+          "rescue_vs_single_gap": 0.0005
+        },
+        "conclusion": "Corrected findings hold across all 3 seeds: hard-gate two-stage is consistently ~0.02 below single-stage (0.61 vs 0.63); rescue routing matches single-stage on average (0.629) with higher variance. The earlier 'locked at 0.227' collapse was an evaluation bug, not a real result."
+      },
+      "conclusion": "The two-stage pipeline WORKS: corrected hard-gate combined reaches ~0.61 Macro F1 and rescue routing reaches ~0.63 — statistically tied with single-stage 4-class (0.63), not a catastrophic -0.40 failure. The hard gate leaks ~20% of droughts to class 0 (-0.02 F1); routing the ambiguous band to the 4-class model recovers it. Single-stage remains the simplest and lowest-variance choice; two-stage is a viable alternative, not a quality gain."
+    },
+    "task_4_explainability": {
+      "objective": "Identify which features and timesteps most influence KZ drought predictions.",
+      "method": "Permutation importance on test set: permute each feature/timestep independently, measure Macro F1 drop. 3 repeats per feature. Evaluated on the best KZ model (seed=42, F1=0.6285).",
+      "feature_importance_ranked": [
+        {
+          "feature": "spei_raw",
+          "f1_drop": 0.2615,
+          "std": 0.0097
+        },
+        {
+          "feature": "rate_of_change",
+          "f1_drop": 0.2336,
+          "std": 0.0048
+        },
+        {
+          "feature": "lag_6m",
+          "f1_drop": 0.1509,
+          "std": 0.0056
+        },
+        {
+          "feature": "lag_1m",
+          "f1_drop": 0.1285,
+          "std": 0.0058
+        },
+        {
+          "feature": "lag_3m",
+          "f1_drop": 0.1194,
+          "std": 0.0032
+        },
+        {
+          "feature": "rolling_min_3m",
+          "f1_drop": 0.1182,
+          "std": 0.0028
+        },
+        {
+          "feature": "rolling_min_6m",
+          "f1_drop": 0.0598,
+          "std": 0.0053
+        },
+        {
+          "feature": "rolling_std_6m",
+          "f1_drop": 0.0483,
+          "std": 0.0038
+        },
+        {
+          "feature": "rolling_max_6m",
+          "f1_drop": 0.0444,
+          "std": 0.0009
+        },
+        {
+          "feature": "rolling_max_12m",
+          "f1_drop": 0.0395,
+          "std": 0.0063
+        },
+        {
+          "feature": "rolling_max_3m",
+          "f1_drop": 0.039,
+          "std": 0.0014
+        },
+        {
+          "feature": "rolling_std_3m",
+          "f1_drop": 0.0241,
+          "std": 0.0034
+        },
+        {
+          "feature": "rolling_min_12m",
+          "f1_drop": 0.0216,
+          "std": 0.0021
+        },
+        {
+          "feature": "rolling_std_12m",
+          "f1_drop": 0.0103,
+          "std": 0.0069
+        }
+      ],
+      "timestep_importance_ranked": [
+        {
+          "month": 18,
+          "f1_drop": 0.2759,
+          "label": "most recent"
+        },
+        {
+          "month": 17,
+          "f1_drop": 0.171
+        },
+        {
+          "month": 16,
+          "f1_drop": 0.0693
+        },
+        {
+          "month": 14,
+          "f1_drop": 0.0619
+        },
+        {
+          "month": 13,
+          "f1_drop": 0.0513
+        },
+        {
+          "month": 15,
+          "f1_drop": 0.0333
+        },
+        {
+          "month": 7,
+          "f1_drop": 0.0308
+        },
+        {
+          "month": 12,
+          "f1_drop": 0.0288
+        }
+      ],
+      "conclusion": "Raw SPEI and its rate of change dominate predictions. Recent months (16-18) are far more important than older months — the model relies primarily on the most recent drought state. Lag features (1, 3, 6 months) provide meaningful secondary signal."
+    }
+  },
+  "final_conclusions": {
+    "biggest_quality_gain": {
+      "decision": "Feature engineering from SPEI",
+      "impact": "+0.087 Macro F1 (0.542 -> 0.629)",
+      "explanation": "Rolling statistics, lags, and rate-of-change extracted meaningful temporal patterns from a single variable without any new data source."
+    },
+    "second_gain": {
+      "decision": "Using SPEI instead of PRECTOT as single drought feature",
+      "impact": "+0.196 Macro F1 (0.346 US PRECTOT -> 0.542 KZ SPEI)",
+      "explanation": "SPEI integrates precipitation and evapotranspiration into a single drought-relevant index. Raw precipitation alone is insufficient."
+    },
+    "failed_approaches": [
+      {
+        "approach": "Transfer learning from US to KZ",
+        "impact": "-0.09 Macro F1 (3-seed mean; -0.087 to -0.092)",
+        "reason": "US PRECTOT and KZ SPEI encode fundamentally different physical signals. Pretrained weights actively harm performance in every seed."
+      }
+    ],
+    "neutral_findings": {
+      "two_stage": "Corrected evaluation: the two-stage pipeline performs on par with a single-stage model, NOT -0.40 below it. Hard-gate combined ~0.61 Macro F1 vs single-stage ~0.63; rescue routing ~0.63 (statistical tie). An earlier -0.401 result was traced to a batch-index bug in the combined-evaluation script and has been corrected.",
+      "recommended": "Single-stage remains the simplest, lowest-variance design and is therefore recommended; two-stage is viable but provides no quality gain."
+    },
+    "robustness": "Results are stable across 3 random seeds (F1 spread 0.008 < 0.03 threshold).",
+    "best_model": {
+      "name": "KZ 14-feature LSTM+Attention",
+      "macro_f1": 0.6285,
+      "accuracy": 0.8614
+    }
+  },
+  "controlled_experiments": {
+    "scenario_comparison": {
+      "objective": "Controlled comparison of raw vs engineered SPEI windows on identical cells, split, and architecture.",
+      "method": "6-month windows; per-location chronological 70/15/15; 500 cells seed 42; seeds 42/123/2026; frozen shared model/metrics modules.",
+      "results": {
+        "C_raw_6x1": {
+          "macro_f1": 0.5648,
+          "macro_f1_std": 0.0012,
+          "accuracy": 0.8508,
+          "train_seqs": 155480
+        },
+        "D_engineered_6x22": {
+          "macro_f1": 0.5574,
+          "macro_f1_std": 0.0093,
+          "accuracy": 0.8437,
+          "train_seqs": 152964
+        }
+      },
+      "delta_c_to_d": -0.0074,
+      "conclusion": "Engineered features do not beat raw SPEI on 6-month windows (~8x higher seed variance). SPEI current value carries most of the signal; the +0.087 Task 1a gain comes from the 14-feature/18-month configuration, not per-month feature expansion."
+    },
+    "two_stage_validated": {
+      "integrity_note": "An early version routed by ground-truth drought labels (oracle gate), inflating combined Macro F1 to 0.675. Defect caught; routing now uses stage-1 predictions only with length/non-zero-count/spot-check assertions. Reported numbers are the corrected, non-oracle results.",
+      "results": {
+        "single_4class": {
+          "macro_f1": 0.5574,
+          "macro_f1_std": 0.0093,
+          "accuracy": 0.8437,
+          "mae": 0.1697
+        },
+        "two_stage_combined": {
+          "macro_f1": 0.5624,
+          "macro_f1_std": 0.003,
+          "accuracy": 0.8543,
+          "mae": 0.1622
+        }
+      },
+      "critical_errors_mean": {
+        "Severe predicted as None rate": 0.0176,
+        "Moderate predicted as Mild rate": 0.369,
+        "Mild predicted as Severe+ rate": 0.015,
+        "None predicted as Drought rate": 0.0755
+      },
+      "conclusion": "Statistically tied with single-stage on Macro F1 (+0.005), better accuracy (+0.011) and 3x lower seed variance. Consistent with corrected Task 3: two-stage viable but not decisive."
+    },
+    "scripts": [
+      "load_data_task1_kz_raw.py",
+      "load_data_task1_kz_features.py",
+      "run_task1_controlled.py",
+      "run_task2_two_stage.py"
+    ],
+    "results_files": [
+      "task1_results.json",
+      "task2_results.json"
+    ]
+  }
+}
