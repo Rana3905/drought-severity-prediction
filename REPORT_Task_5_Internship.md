@@ -556,11 +556,11 @@ Total parameters: ~16,000
 
 ---
 
-**Generated files:**
+**Outfut articrafts files:**
 - `task_results_summary.json` — structured experiment results
 - `REPORT_Task_5_Internship.md` — this report
 - `shap_kz_feature_importance.png` — feature permutation importance chart
 - `shap_kz_timestep_importance.png` — timestep permutation importance chart
 - `shap_kz_per_class.png` — per-class feature importance heatmap
 
-**Date:** August 2026
+**Date:** September 30, 2026
